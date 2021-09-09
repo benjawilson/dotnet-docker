@@ -21,6 +21,7 @@ jobs:
   variables:
     imageBuilderDockerRunExtraOptions: $(build.imageBuilderDockerRunExtraOptions)
     versionsRepoPath: versions
+    testScriptPath: $(testScriptPath)
     ${{ if eq(parameters.noCache, false) }}:
       versionsBasePath: $(versionsRepoPath)/
       pipelineDisabledCache: false
@@ -89,6 +90,6 @@ jobs:
   - publish: $(Build.ArtifactStagingDirectory)/$(legName)-image-info.json
     artifact: $(legName)-image-info-$(System.JobAttempt)
     displayName: Publish Image Info File Artifact
-  - ${{ if eq(variables['System.TeamProject'], 'public') }}:
+  - ${{ if and(eq(variables['System.TeamProject'], 'public'), ne(variables.testScriptPath, '')) }}:
     - template: ${{ format('../steps/test-images-{0}-client.yml', parameters.dockerClientOS) }}
   - template: ${{ format('../steps/cleanup-docker-{0}.yml', parameters.dockerClientOS) }}
