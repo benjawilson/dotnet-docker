@@ -9,8 +9,8 @@ RUN dotnet restore
 
 # copy everything else and build app
 COPY ./samples/aspnetapp/* ./aspnetapp/
-WORKDIR /source/samples/aspnetapp/
-RUN dotnet publish -c release -o /aspnetapp --no-restore
+WORKDIR /source
+RUN dotnet publish -c release -o ./samples/aspnetapp/aspnetapp/ --no-restore
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
