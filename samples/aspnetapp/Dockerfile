@@ -14,6 +14,6 @@ RUN dotnet publish -c release -o ./samples/aspnetapp/aspnetapp/ --no-restore
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
-WORKDIR /app
+WORKDIR /aspnetapp
 COPY --from=build ./aspnetapp ./
 ENTRYPOINT ["dotnet", "aspnetapp.dll"]
